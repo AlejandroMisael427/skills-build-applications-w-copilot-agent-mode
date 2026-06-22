@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from './config/mongodb.js';
+import { connectDB } from './config/database.js';
 import usersRouter from './routes/users.js';
 import teamsRouter from './routes/teams.js';
 import activitiesRouter from './routes/activities.js';
