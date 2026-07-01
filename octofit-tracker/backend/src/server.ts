@@ -22,6 +22,14 @@ const getApiUrl = () => {
   return `http://localhost:${PORT}`;
 };
 
+// Determine environment
+const getEnvironment = () => {
+  if (process.env.CODESPACE_NAME) {
+    return 'Codespaces';
+  }
+  return 'Local';
+};
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -34,7 +42,10 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'OctoFit Tracker API is running',
-    apiUrl: getApiUrl()
+    environment: getEnvironment(),
+    apiUrl: getApiUrl(),
+    port: PORT,
+    codespaces: process.env.CODESPACE_NAME || 'Not in Codespaces'
   });
 });
 
@@ -51,6 +62,14 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log('\n========================================');
+  console.log('🚀 OctoFit Tracker API Server Started');
+  console.log('========================================');
+  console.log(`Environment: ${getEnvironment()}`);
+  console.log(`Port: ${PORT}`);
   console.log(`API URL: ${getApiUrl()}`);
+  if (process.env.CODESPACE_NAME) {
+    console.log(`Codespaces: ${process.env.CODESPACE_NAME}`);
+  }
+  console.log('========================================\n');
 });
